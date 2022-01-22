@@ -1,35 +1,30 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> str = new ArrayList<List<Integer>>();
-        int length = nums.length;
-        if(length<3)
-        return str;
-        
-        for(int i=0;i<length;i++){
-            for(int j=1;j<length;j++){
-                List<Integer> rte = new ArrayList<>();
-                for(int k=2;k<length;k++){
-                    if(nums[i]+nums[j]+nums[k]==0){
-                        rte.add(i);
-                        rte.add(j);
-                        rte.add(k);
-                        str.add(rte);
-                    }
+        int n=nums.length;
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        for(int first=0;first<n;first++){
+            if(first>0&&nums[first]==nums[first-1])
+            continue;
+            int third = n-1;
+            int target =-nums[first];
+            for(int second=first+1;second<n;second++){
+                if(second>first+1&&nums[second]==nums[second-1])
+                continue;
+                while(second<third&&nums[second]+nums[third]>target){
+                    third--;
                 }
-            }
-            int slow=0,fast=1;
-            int index=str.size();
-            while(slow<index){
-                if(slow==fast)str.remove(fast);
-                else
-                fast++;
-                if(fast==str.size()){
-                    slow++;
-                    fast=slow+1;
+                if(third==second)
+                break;
+                if(nums[second]+nums[third]==target){
+                    List<Integer> ret = new ArrayList<>();
+                    ret.add(nums[first]);
+                    ret.add(nums[second]);
+                    ret.add(nums[third]);
+                    ans.add(ret);
                 }
-                index=str.size();
             }
         }
-        return str;
+        return ans;
     }
 }
